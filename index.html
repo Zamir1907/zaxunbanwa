@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unbanned WhatsApp v3.5 – Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #00A884;
+      --green-dark:  #008069;
+      --green-hover: #006B5A;
+      --bg:          #F0F2F5;
+      --card:        #FFFFFF;
+      --text:        #1A1A1A;
+      --text-mid:    #3B3B3B;
+      --text-soft:   #8A8A8A;
+      --border:      #E9EDF0;
+      --shadow:      0 4px 20px rgba(0,0,0,0.08);
+      --radius:      14px;
+      --transition:  all 0.25s ease;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--green);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .topbar-icon {
+      width: 34px; height: 34px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .topbar-icon i { color: var(--green-dark); font-size: 18px; }
+    .topbar-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.2px;
+    }
+    .topbar-badge {
+      font-size: 10px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+      margin-left: 2px;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+
+    /* ── CARD HEADER ── */
+    .card-header {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      padding: 32px 32px 28px;
+      text-align: center;
+      position: relative;
+    }
+    .logo-wrap {
+      width: 68px; height: 68px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+      backdrop-filter: blur(4px);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .logo-wrap i { font-size: 32px; color: #fff; }
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      letter-spacing: 0.1px;
+    }
+    .card-sub {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 400;
+    }
+
+    /* ── BODY ── */
+    .card-body {
+      padding: 28px 32px 24px;
+    }
+
+    /* ── TAB SWITCH ── */
+    .tab-switch {
+      display: flex;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 9px 0;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--card);
+      color: var(--green-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+    }
+    .tab-btn i { margin-right: 6px; font-size: 12px; }
+
+    /* ── FORM ── */
+    .form-pane {
+      display: none;
+      animation: fadeSlide 0.28s ease;
+    }
+    .form-pane.active { display: block; }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrap i.lead {
+      position: absolute;
+      left: 13px;
+      color: var(--text-soft);
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .input-wrap input {
+      width: 100%;
+      height: 46px;
+      padding: 0 42px 0 38px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: var(--transition);
+    }
+    .input-wrap input:focus {
+      border-color: var(--green);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,168,132,0.12);
+    }
+    .input-wrap input::placeholder { color: var(--text-soft); font-size: 13px; }
+    .eye-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-soft);
+      font-size: 14px;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .eye-btn:hover { color: var(--green-dark); }
+
+    /* ── EXTRAS ── */
+    .extras {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      margin-top: -4px;
+    }
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--text-mid);
+      cursor: pointer;
+      user-select: none;
+    }
+    .check-label input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--green-dark);
+      cursor: pointer;
+    }
+    .forgot {
+      font-size: 13px;
+      color: var(--green-dark);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .forgot:hover { text-decoration: underline; }
+
+    /* ── SUBMIT BTN ── */
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--green-dark);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-submit:hover {
+      background: var(--green-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,104,88,0.22);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ── ADMIN BADGE ── */
+    .admin-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: 8px;
+      padding: 10px 13px;
+      margin-bottom: 18px;
+      font-size: 12.5px;
+      color: #7A5C00;
+    }
+    .admin-note i { color: #F9A825; font-size: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1A1A1A;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 40px;
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    #toast.error i { color: #FF5252; }
+    #toast.success i { color: #69F0AE; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 32px;
+    }
+    .card-footer-text {
+      padding: 16px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 480px) {
+      .card-body { padding: 22px 20px 18px; }
+      .card-header { padding: 26px 20px 22px; }
+      .divider { margin: 0 20px; }
+      .card-footer-text { padding: 14px 20px; }
+      .card-title { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="topbar-icon"><i class="fab fa-whatsapp"></i></div>
+    <span class="topbar-name">Unbanned WhatsApp</span>
+    <span class="topbar-badge">v3.5</span>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="card">
+
+      <!-- HEADER -->
+      <div class="card-header">
+        <div class="logo-wrap"><i class="fab fa-whatsapp"></i></div>
+        <div class="card-title">Unbanned WhatsApp v3.5</div>
+        <div class="card-sub">Akses kembali akun WhatsApp Anda</div>
+      </div>
+
+      <!-- BODY -->
+      <div class="card-body">
+
+        <!-- TAB SWITCH -->
+        <div class="tab-switch">
+          <button class="tab-btn active" id="tab-member" onclick="switchTab('member')">
+            <i class="fas fa-user"></i>Member
+          </button>
+          <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">
+            <i class="fas fa-shield-halved"></i>Admin
+          </button>
+        </div>
+
+        <!-- FORM MEMBER -->
+        <div class="form-pane active" id="pane-member">
+          <div class="field">
+            <label>Username</label>
+            <div class="input-wrap">
+              <i class="fas fa-at lead"></i>
+              <input type="text" id="m-user" placeholder="contoh: squad" autocomplete="username" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+              <i class="fas fa-lock lead"></i>
+              <input type="password" id="m-pass" placeholder="Masukkan password" autocomplete="current-password" />
+              <button class="eye-btn" onclick="toggleEye('m-pass', this)" tabindex="-1" type="button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="extras">
+            <label class="check-label">
+              <input type="checkbox" /> Ingat Saya
+            </label>
+            <a href="#" class="forgot">Lupa Password?</a>
+          </div>
+          <button class="btn-submit" onclick="doLogin('member')">
+            <i class="fas fa-right-to-bracket"></i> Masuk sebagai Member
+          </button>
+        </div>
+
+        <!-- FORM ADMIN -->
+        <div class="form-pane" id="pane-admin">
+          <div class="admin-note">
+            <i class="fas fa-triangle-exclamation"></i>
+            Akses terbatas. Hanya untuk administrator resmi.
+          </div>
+          <div class="field">
+            <label>Username Admin</label>
+            <div class="input-wrap">
+              <i class="fas fa-user-shield lead"></i>
+              <input type="text" id="a-user" placeholder="username admin" autocomplete="username" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Password Admin</label>
+            <div class="input-wrap">
+              <i class="fas fa-lock lead"></i>
+              <input type="password" id="a-pass" placeholder="Masukkan password" autocomplete="current-password" />
+              <button class="eye-btn" onclick="toggleEye('a-pass', this)" tabindex="-1" type="button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="extras">
+            <label class="check-label">
+              <input type="checkbox" /> Ingat Saya
+            </label>
+            <a href="#" class="forgot">Lupa Password?</a>
+          </div>
+          <button class="btn-submit" onclick="doLogin('admin')">
+            <i class="fas fa-right-to-bracket"></i> Masuk sebagai Admin
+          </button>
+        </div>
+
+      </div><!-- /card-body -->
+
+      <div class="divider"></div>
+      <div class="card-footer-text">
+        Dengan masuk, kamu menyetujui syarat & ketentuan layanan.
+      </div>
+
+    </div><!-- /card -->
+  </main>
+
+  <footer>© 2026 Unbanned WhatsApp v3.5. All rights reserved.</footer>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><i class="fas fa-circle-info"></i><span id="toast-msg">–</span></div>
+
+<script>
+  // ── CREDENTIALS ──
+  const USERS = {
+    member: [
+      { username: 'squad',  password: 'unbanned123' },
+      { username: 'heal',   password: 'unbanned123' },
+      { username: 'nexus',  password: 'unbanned123' },
+    ],
+    admin: [
+      { username: 'admin', password: 'adminunbanned' },
+    ]
+  };
+
+  // ── TAB SWITCH ──
+  function switchTab(role) {
+    document.getElementById('pane-member').classList.toggle('active', role === 'member');
+    document.getElementById('pane-admin').classList.toggle('active', role === 'admin');
+    document.getElementById('tab-member').classList.toggle('active', role === 'member');
+    document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
+  }
+
+  // ── TOGGLE EYE ──
+  function toggleEye(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    const isPass = inp.type === 'password';
+    inp.type = isPass ? 'text' : 'password';
+    btn.querySelector('i').className = isPass ? 'fas fa-eye-slash' : 'fas fa-eye';
+  }
+
+  // ── LOGIN ──
+  function doLogin(role) {
+    const user = document.getElementById(role === 'member' ? 'm-user' : 'a-user').value.trim().toLowerCase();
+    const pass = document.getElementById(role === 'member' ? 'm-pass' : 'a-pass').value;
+
+    if (!user || !pass) {
+      showToast('Username dan password tidak boleh kosong.', 'error');
+      return;
+    }
+
+    const match = USERS[role].find(u => u.username === user && u.password === pass);
+    if (!match) {
+      showToast('Username atau password salah.', 'error');
+      return;
+    }
+
+    // Save session
+    localStorage.setItem('uw_user', user);
+    localStorage.setItem('uw_role', role);
+    localStorage.setItem('uw_credit', role === 'admin' ? 999999 : 1000);
+
+    showToast('Login berhasil! Mengalihkan...', 'success');
+    setTimeout(() => { window.location.href = 'home.html'; }, 1100);
+  }
+
+  // ── TOAST ──
+  let toastTimer;
+  function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    const icon = t.querySelector('i');
+    document.getElementById('toast-msg').textContent = msg;
+    t.className = type;
+    icon.className = type === 'error' ? 'fas fa-circle-xmark' : type === 'success' ? 'fas fa-circle-check' : 'fas fa-circle-info';
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── ENTER KEY ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const active = document.getElementById('pane-member').classList.contains('active') ? 'member' : 'admin';
+      doLogin(active);
+    }
+  });
+
+  // ── AUTO REDIRECT if already logged in ──
+  if (localStorage.getItem('uw_user')) {
+    window.location.href = 'home.html';
+  }
+</script>
+
+</body>
+</html>

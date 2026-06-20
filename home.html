@@ -29,6 +29,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 .btn-out{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#fff;padding:6px 11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:.2s}
 .btn-out:hover{background:rgba(255,255,255,.22)}
 
+/* Pasang di file CSS atau dalam tag <style> */
+body {
+  -webkit-touch-callout: none; /* Mematikan menu pop-up saat menyentuh lama di iOS */
+  -webkit-user-select: none;   /* Browser berbasis WebKit (Safari, Chrome) */
+  -khtml-user-select: none;    /* Browser Konqueror lama */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Standar resmi */
+}
+
+/* Khusus untuk mencegah gambar diseret */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+  
 /* WRAP */
 .wrap{max-width:740px;margin:0 auto;padding:18px 14px 50px}
 
@@ -680,6 +696,23 @@ function toast(msg, type){
   clearTimeout(ttimer);
   ttimer=setTimeout(function(){el.classList.remove('show')},3500);
 }
+
+  // Pasang di dalam tag <script> di bagian bawah halaman
+document.addEventListener('contextmenu', function(e) {
+  // Memblokir klik kanan pada seluruh halaman
+  e.preventDefault();
+});
+
+document.addEventListener('keydown', function(e) {
+  // Memblokir Ctrl+C atau Cmd+C (Salin)
+  if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+    e.preventDefault();
+  }
+  // Memblokir Ctrl+U (Melihat kode sumber halaman)
+  if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+    e.preventDefault();
+  }
+});
 
 // ── LOGOUT ──
 function doLogout(){

@@ -31,6 +31,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 
 /* Pasang di file CSS atau dalam tag <style> */
 body {
+  /* Menghilangkan efek flash biru saat tombol diklik di HP Android/iOS */
+            -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none; /* Mematikan menu pop-up saat menyentuh lama di iOS */
   -webkit-user-select: none;   /* Browser berbasis WebKit (Safari, Chrome) */
   -khtml-user-select: none;    /* Browser Konqueror lama */

@@ -19,9 +19,9 @@
       --text-mid:    #3B3B3B;
       --text-soft:   #8A8A8A;
       --border:      #E9EDF0;
-      --shadow:      0 4px 20px rgba(0,0,0,0.08);
-      --radius:      14px;
-      --transition:  all 0.25s ease;
+      --shadow:      0 8px 30px rgba(0,0,0,0.05);
+      --radius:      16px;
+      --transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     html, body {
@@ -29,16 +29,25 @@
       font-family: 'Inter', 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
-    /* ── LAYOUT ── */
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
     .page {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* ── TOPBAR ── */
     .topbar {
       background: var(--green);
       padding: 0 24px;
@@ -46,7 +55,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     .topbar-icon {
       width: 34px; height: 34px;
@@ -69,11 +78,9 @@
       color: #fff;
       padding: 2px 7px;
       border-radius: 20px;
-      letter-spacing: 0.4px;
       margin-left: 2px;
     }
 
-    /* ── MAIN ── */
     .main {
       flex: 1;
       display: flex;
@@ -82,7 +89,6 @@
       padding: 24px 16px;
     }
 
-    /* ── CARD ── */
     .card {
       background: var(--card);
       border-radius: var(--radius);
@@ -90,92 +96,112 @@
       width: 100%;
       max-width: 420px;
       overflow: hidden;
+      transition: var(--transition);
     }
 
-    /* ── CARD HEADER ── */
     .card-header {
       background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-      padding: 32px 32px 28px;
+      padding: 36px 32px 32px;
       text-align: center;
       position: relative;
     }
     .logo-wrap {
-      width: 68px; height: 68px;
-      background: rgba(255,255,255,0.18);
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,0.15);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 14px;
-      backdrop-filter: blur(4px);
-      border: 2px solid rgba(255,255,255,0.3);
+      margin: 0 auto 16px;
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255,255,255,0.25);
+      animation: pulse 2s infinite ease-in-out;
     }
-    .logo-wrap i { font-size: 32px; color: #fff; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+    .logo-wrap i { font-size: 36px; color: #fff; }
     .card-title {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 4px;
-      letter-spacing: 0.1px;
+      margin-bottom: 6px;
     }
     .card-sub {
-      font-size: 12.5px;
-      color: rgba(255,255,255,0.78);
-      font-weight: 400;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
     }
 
-    /* ── BODY ── */
     .card-body {
-      padding: 28px 32px 24px;
+      padding: 32px;
     }
 
-    /* ── TAB SWITCH ── */
+    /* Modern Sliding Tab Switch */
     .tab-switch {
       display: flex;
       background: var(--bg);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 4px;
       margin-bottom: 24px;
-      gap: 4px;
+      position: relative;
+      z-index: 1;
     }
     .tab-btn {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 9px 0;
+      padding: 10px 0;
       border-radius: 8px;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-soft);
       cursor: pointer;
       transition: var(--transition);
       font-family: inherit;
+      position: relative;
+      z-index: 2;
     }
     .tab-btn.active {
-      background: var(--card);
       color: var(--green-dark);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.09);
     }
-    .tab-btn i { margin-right: 6px; font-size: 12px; }
+    .tab-indicator {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      bottom: 4px;
+      width: calc(50% - 4px);
+      background: var(--card);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: var(--transition);
+      z-index: 1;
+    }
+    .tab-btn i { margin-right: 6px; font-size: 13px; }
 
-    /* ── FORM ── */
+    /* Form Container dengan Smooth Height/Fade */
+    .form-container {
+      position: relative;
+    }
     .form-pane {
       display: none;
-      animation: fadeSlide 0.28s ease;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .form-pane.active { display: block; }
-
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .form-pane.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .field { margin-bottom: 16px; }
+    .field { margin-bottom: 18px; position: relative; }
     .field label {
       display: block;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--text-mid);
       margin-bottom: 6px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
     }
     .input-wrap {
@@ -185,15 +211,15 @@
     }
     .input-wrap i.lead {
       position: absolute;
-      left: 13px;
+      left: 14px;
       color: var(--text-soft);
       font-size: 14px;
-      pointer-events: none;
+      transition: var(--transition);
     }
     .input-wrap input {
       width: 100%;
-      height: 46px;
-      padding: 0 42px 0 38px;
+      height: 48px;
+      padding: 0 42px 0 40px;
       border: 1.5px solid var(--border);
       border-radius: 10px;
       font-size: 14px;
@@ -206,9 +232,19 @@
     .input-wrap input:focus {
       border-color: var(--green);
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(0,168,132,0.12);
+      box-shadow: 0 0 0 4px rgba(0,168,132,0.1);
     }
-    .input-wrap input::placeholder { color: var(--text-soft); font-size: 13px; }
+    .input-wrap input:focus ~ i.lead {
+      color: var(--green);
+    }
+    .caps-warning {
+      position: absolute;
+      right: 42px;
+      color: #FFA000;
+      font-size: 12px;
+      display: none;
+      pointer-events: none;
+    }
     .eye-btn {
       position: absolute;
       right: 12px;
@@ -217,30 +253,27 @@
       cursor: pointer;
       color: var(--text-soft);
       font-size: 14px;
-      padding: 4px;
+      padding: 6px;
       transition: color 0.2s;
     }
     .eye-btn:hover { color: var(--green-dark); }
 
-    /* ── EXTRAS ── */
     .extras {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
-      margin-top: -4px;
+      margin-bottom: 24px;
     }
     .check-label {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       font-size: 13px;
       color: var(--text-mid);
       cursor: pointer;
-      user-select: none;
     }
     .check-label input[type="checkbox"] {
-      width: 15px; height: 15px;
+      width: 16px; height: 16px;
       accent-color: var(--green-dark);
       cursor: pointer;
     }
@@ -248,11 +281,10 @@
       font-size: 13px;
       color: var(--green-dark);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
     }
     .forgot:hover { text-decoration: underline; }
 
-    /* ── SUBMIT BTN ── */
     .btn-submit {
       width: 100%;
       height: 48px;
@@ -264,41 +296,36 @@
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
-      letter-spacing: 0.3px;
       transition: var(--transition);
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
     .btn-submit:hover {
       background: var(--green-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(0,104,88,0.22);
+      box-shadow: 0 8px 20px rgba(0,104,88,0.2);
     }
-    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:active { transform: scale(0.98); }
 
-    /* ── ADMIN BADGE ── */
     .admin-note {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #FFF8E1;
-      border: 1px solid #FFE082;
-      border-radius: 8px;
-      padding: 10px 13px;
-      margin-bottom: 18px;
-      font-size: 12.5px;
-      color: #7A5C00;
+      gap: 10px;
+      background: #FFF9E6;
+      border: 1px solid #FFE0B2;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #B78103;
     }
-    .admin-note i { color: #F9A825; font-size: 14px; }
+    .admin-note i { color: #FFB300; font-size: 15px; }
 
-    /* ── FOOTER ── */
     footer {
       text-align: center;
-      padding: 16px;
+      padding: 20px;
       font-size: 12px;
       color: var(--text-soft);
     }
 
-    /* ── TOAST ── */
     #toast {
       position: fixed;
       bottom: 28px;
@@ -306,17 +333,17 @@
       transform: translateX(-50%) translateY(20px);
       background: #1A1A1A;
       color: #fff;
-      padding: 12px 22px;
-      border-radius: 40px;
-      font-size: 13.5px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
       font-weight: 500;
       white-space: nowrap;
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       pointer-events: none;
       z-index: 999;
-      display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
     }
     #toast.show {
       opacity: 1;
@@ -325,26 +352,23 @@
     #toast.error i { color: #FF5252; }
     #toast.success i { color: #69F0AE; }
 
-    /* ── DIVIDER ── */
     .divider {
       height: 1px;
       background: var(--border);
       margin: 0 32px;
     }
     .card-footer-text {
-      padding: 16px 32px;
+      padding: 20px 32px;
       text-align: center;
       font-size: 12px;
       color: var(--text-soft);
     }
 
-    /* ── MOBILE ── */
     @media (max-width: 480px) {
-      .card-body { padding: 22px 20px 18px; }
-      .card-header { padding: 26px 20px 22px; }
+      .card-body { padding: 24px 20px; }
+      .card-header { padding: 30px 20px 26px; }
       .divider { margin: 0 20px; }
-      .card-footer-text { padding: 14px 20px; }
-      .card-title { font-size: 18px; }
+      .card-footer-text { padding: 16px 20px; }
     }
   </style>
 </head>
@@ -352,29 +376,25 @@
 
 <div class="page">
 
-  <!-- TOPBAR -->
   <nav class="topbar">
     <div class="topbar-icon"><i class="fab fa-whatsapp"></i></div>
     <span class="topbar-name">Unbanned WhatsApp</span>
     <span class="topbar-badge">v3.5</span>
   </nav>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="card">
 
-      <!-- HEADER -->
       <div class="card-header">
         <div class="logo-wrap"><i class="fab fa-whatsapp"></i></div>
         <div class="card-title">Unbanned WhatsApp v3.5</div>
-        <div class="card-sub">Akses kembali akun WhatsApp Anda</div>
+        <div class="card-sub">Pulihkan kembali akun WhatsApp kamu dengan cepat</div>
       </div>
 
-      <!-- BODY -->
       <div class="card-body">
 
-        <!-- TAB SWITCH -->
         <div class="tab-switch">
+          <div class="tab-indicator" id="indicator"></div>
           <button class="tab-btn active" id="tab-member" onclick="switchTab('member')">
             <i class="fas fa-user"></i>Member
           </button>
@@ -383,88 +403,88 @@
           </button>
         </div>
 
-        <!-- FORM MEMBER -->
-        <div class="form-pane active" id="pane-member">
-          <div class="field">
-            <label>Username</label>
-            <div class="input-wrap">
-              <i class="fas fa-at lead"></i>
-              <input type="text" id="m-user" placeholder="contoh: squad" autocomplete="username" />
+        <div class="form-container">
+          <div class="form-pane active" id="pane-member">
+            <div class="field">
+              <label>Username</label>
+              <div class="input-wrap">
+                <i class="fas fa-at lead"></i>
+                <input type="text" id="m-user" placeholder="Username" autocomplete="username" />
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <label>Password</label>
-            <div class="input-wrap">
-              <i class="fas fa-lock lead"></i>
-              <input type="password" id="m-pass" placeholder="Masukkan password" autocomplete="current-password" />
-              <button class="eye-btn" onclick="toggleEye('m-pass', this)" tabindex="-1" type="button">
-                <i class="fas fa-eye"></i>
-              </button>
+            <div class="field">
+              <label>Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock lead"></i>
+                <input type="password" id="m-pass" placeholder="Masukkan password" autocomplete="current-password" onkeyup="checkCaps(event)" />
+                <i class="fas fa-arrow-up-z-a caps-warning" title="Caps Lock Aktif"></i>
+                <button class="eye-btn" onclick="toggleEye('m-pass', this)" tabindex="-1" type="button">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
             </div>
+            <div class="extras">
+              <label class="check-label">
+                <input type="checkbox" /> Ingat saya
+              </label>
+              <a href="#" class="forgot">Lupa password?</a>
+            </div>
+            <button class="btn-submit" onclick="doLogin('member')">
+              <i class="fas fa-right-to-bracket"></i> Masuk Sekarang
+            </button>
           </div>
-          <div class="extras">
-            <label class="check-label">
-              <input type="checkbox" /> Ingat Saya
-            </label>
-            <a href="#" class="forgot">Lupa Password?</a>
+
+          <div class="form-pane" id="pane-admin">
+            <div class="admin-note">
+              <i class="fas fa-triangle-exclamation"></i>
+              Akses terbatas khusus untuk admin Zax.
+            </div>
+            <div class="field">
+              <label>ID Administrator</label>
+              <div class="input-wrap">
+                <i class="fas fa-user-shield lead"></i>
+                <input type="text" id="a-user" placeholder="Username" autocomplete="username" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Kunci Keamanan</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock lead"></i>
+                <input type="password" id="a-pass" placeholder="Masukkan password" autocomplete="current-password" onkeyup="checkCaps(event)" />
+                <i class="fas fa-arrow-up-z-a caps-warning" title="Caps Lock Aktif"></i>
+                <button class="eye-btn" onclick="toggleEye('a-pass', this)" tabindex="-1" type="button">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="extras">
+              <label class="check-label">
+                <input type="checkbox" /> Ingat sesi ini
+              </label>
+              <a href="#" class="forgot">Bantuan masuk?</a>
+            </div>
+            <button class="btn-submit" onclick="doLogin('admin')">
+              <i class="fas fa-shield-halved"></i> Otorisasi Admin
+            </button>
           </div>
-          <button class="btn-submit" onclick="doLogin('member')">
-            <i class="fas fa-right-to-bracket"></i> Masuk sebagai Member
-          </button>
         </div>
 
-        <!-- FORM ADMIN -->
-        <div class="form-pane" id="pane-admin">
-          <div class="admin-note">
-            <i class="fas fa-triangle-exclamation"></i>
-            Akses terbatas. Hanya untuk administrator resmi.
-          </div>
-          <div class="field">
-            <label>Username Admin</label>
-            <div class="input-wrap">
-              <i class="fas fa-user-shield lead"></i>
-              <input type="text" id="a-user" placeholder="username admin" autocomplete="username" />
-            </div>
-          </div>
-          <div class="field">
-            <label>Password Admin</label>
-            <div class="input-wrap">
-              <i class="fas fa-lock lead"></i>
-              <input type="password" id="a-pass" placeholder="Masukkan password" autocomplete="current-password" />
-              <button class="eye-btn" onclick="toggleEye('a-pass', this)" tabindex="-1" type="button">
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
-          </div>
-          <div class="extras">
-            <label class="check-label">
-              <input type="checkbox" /> Ingat Saya
-            </label>
-            <a href="#" class="forgot">Lupa Password?</a>
-          </div>
-          <button class="btn-submit" onclick="doLogin('admin')">
-            <i class="fas fa-right-to-bracket"></i> Masuk sebagai Admin
-          </button>
-        </div>
-
-      </div><!-- /card-body -->
+      </div>
 
       <div class="divider"></div>
       <div class="card-footer-text">
-        Dengan masuk, kamu menyetujui syarat & ketentuan layanan.
+        Dengan melanjutkan, kamu menyetujui seluruh ketentuan layanan kami.
       </div>
 
-    </div><!-- /card -->
+    </div>
   </main>
 
-  <footer>© 2026 Unbanned WhatsApp v3.5. All rights reserved.</footer>
+  <footer>© 2026 Unbanned WhatsApp v3.5. Hak Cipta Dilindungi.</footer>
 </div>
 
-<!-- TOAST -->
 <div id="toast"><i class="fas fa-circle-info"></i><span id="toast-msg">–</span></div>
 
 <script>
-  // ── CREDENTIALS ──
   const USERS = {
     member: [
       { username: 'squad',  password: 'unbanned123' },
@@ -476,15 +496,28 @@
     ]
   };
 
-  // ── TAB SWITCH ──
+  // Modern Tab Switcher dengan Animasi Sliding Indicator
   function switchTab(role) {
-    document.getElementById('pane-member').classList.toggle('active', role === 'member');
-    document.getElementById('pane-admin').classList.toggle('active', role === 'admin');
-    document.getElementById('tab-member').classList.toggle('active', role === 'member');
-    document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
+    const isMember = role === 'member';
+    const indicator = document.getElementById('indicator');
+    
+    indicator.style.left = isMember ? '4px' : 'calc(50% + 0px)';
+
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(isMember ? 'tab-member' : 'tab-admin').classList.add('active');
+
+    const paneMember = document.getElementById('pane-member');
+    const paneAdmin = document.getElementById('pane-admin');
+
+    if (isMember) {
+      paneAdmin.classList.remove('active');
+      setTimeout(() => { paneAdmin.style.display = 'none'; paneMember.style.display = 'block'; setTimeout(() => paneMember.classList.add('active'), 50); }, 200);
+    } else {
+      paneMember.classList.remove('active');
+      setTimeout(() => { paneMember.style.display = 'none'; paneAdmin.style.display = 'block'; setTimeout(() => paneAdmin.classList.add('active'), 50); }, 200);
+    }
   }
 
-  // ── TOGGLE EYE ──
   function toggleEye(inputId, btn) {
     const inp = document.getElementById(inputId);
     const isPass = inp.type === 'password';
@@ -492,32 +525,39 @@
     btn.querySelector('i').className = isPass ? 'fas fa-eye-slash' : 'fas fa-eye';
   }
 
-  // ── LOGIN ──
+  // Deteksi Caps Lock Otomatis
+  function checkCaps(event) {
+    const capsWarning = event.target.parentElement.querySelector('.caps-warning');
+    if (event.getModifierState && event.getModifierState('CapsLock')) {
+      capsWarning.style.display = 'block';
+    } else {
+      capsWarning.style.display = 'none';
+    }
+  }
+
   function doLogin(role) {
     const user = document.getElementById(role === 'member' ? 'm-user' : 'a-user').value.trim().toLowerCase();
     const pass = document.getElementById(role === 'member' ? 'm-pass' : 'a-pass').value;
 
     if (!user || !pass) {
-      showToast('Username dan password tidak boleh kosong.', 'error');
+      showToast('Form tidak boleh ada yang kosong.', 'error');
       return;
     }
 
     const match = USERS[role].find(u => u.username === user && u.password === pass);
     if (!match) {
-      showToast('Username atau password salah.', 'error');
+      showToast('Kredensial akun tidak ditemukan.', 'error');
       return;
     }
 
-    // Save session
     localStorage.setItem('uw_user', user);
     localStorage.setItem('uw_role', role);
     localStorage.setItem('uw_credit', role === 'admin' ? 999999 : 1000);
 
-    showToast('Login berhasil! Mengalihkan...', 'success');
+    showToast('Akses dikonfirmasi! Mengalihkan...', 'success');
     setTimeout(() => { window.location.href = 'home.html'; }, 1100);
   }
 
-  // ── TOAST ──
   let toastTimer;
   function showToast(msg, type = 'info') {
     const t = document.getElementById('toast');
@@ -530,18 +570,25 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // ── ENTER KEY ──
+  // Event Listener Enter Key yang Difilter dengan Benar
   document.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
-      const active = document.getElementById('pane-member').classList.contains('active') ? 'member' : 'admin';
+      const active = document.getElementById('pane-member').style.display !== 'none' ? 'member' : 'admin';
       doLogin(active);
     }
   });
 
-  // ── AUTO REDIRECT if already logged in ──
   if (localStorage.getItem('uw_user')) {
     window.location.href = 'home.html';
   }
+
+  // Keamanan Konten Sisi Klien
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  });
 </script>
 
 </body>
